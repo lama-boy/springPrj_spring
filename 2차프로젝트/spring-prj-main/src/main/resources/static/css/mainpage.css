@@ -1,0 +1,150 @@
+
+#sc_user {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: 330px;
+  background-color: #f7f9fa;
+  border:1px solid #e4e8eb;
+}
+
+#extendedBox{
+	width : auto;
+	height : 100px;
+	background-color: orange;
+}
+
+.info_area {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+
+#NICK_ID {
+  margin-left: 10px;
+}
+
+#logout {
+  position: absolute;
+  top: 17px;
+  right: 17px;
+  text-decoration: none;
+  border: 1px solid #ccd0d4;
+  background-color: #ccd0d4;
+  border-radius: 14px;
+  font-size: 11px;
+  padding: 6px 10px 6px 11px;
+  color:white;
+}
+
+#MY_PROFILE {
+ border-radius: 50px;
+ margin-left: 10px;
+ border: 1px solid #e4e8eb;
+}
+
+.user_info {
+  margin-left: 10px;
+}
+
+.info_box {
+  display: flex;
+  flex-direction: column;
+}
+
+.info_box a {
+  font-size: 15px;
+  line-height: 1.2;
+  color: #333;
+  text-decoration: none;
+}
+
+#MY_NICKNAME {
+  font-weight: 700;
+}
+
+#MY_ID {
+  font-size: 11px;
+  color: #505050;
+}
+
+.MY_EMAIL {
+  font-size: 12px;
+  width: 100%;
+  order: 1;
+  padding-top: 1px;
+  color: grey;
+}
+
+.new_box a {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333;
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+}
+
+.new_box a strong {
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 4px;
+  color: #03c75a;
+  line-height: 16px;
+}
+
+.MY_TAB_AREA {
+  display: flex;
+  margin-top: 10px;
+}
+
+.tab_box_wrap {
+  display: flex;
+  justify-content: flex-start;
+  width: auto;
+  background-color: #f7f9fa;
+  overflow: hidden;
+  position: relative;
+}
+
+.tab_box {
+  display: flex;
+  align-items: center;
+}
+
+.tab_box .tab_btn {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #333;
+  text-decoration: none;
+  position: relative;
+  border : 1px solid #e4e8eb;
+  padding: 13px 0 11px;
+  width:64px;  
+  text-align: center;
+}
+
+.tab_box .badge_box {
+  display: none;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #00c63a;
+  color: white;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-size: 14px;
+  font-weight: 700;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab_box .badge_box .badge_new {
+  font-size: 12px;
+}
+

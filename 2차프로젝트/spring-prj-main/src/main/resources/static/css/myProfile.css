@@ -1,0 +1,143 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-4pRH0dLNSsZ3qI4AOMbVdFCzOhJ/v8lRWpTHbkuTB7AaK/bdwuL8VWBBTDQwGHm/VoG/wcypmXmKtNJ2m5G5eQ==" crossorigin="anonymous" referrerpolicy="no-referrer
+
+/* 전체 페이지 스타일링 */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* 프로필 이미지 영역 스타일링 */
+.gnb_img_area {
+  position: relative;
+  display: inline-block;
+}
+
+.gnb_my_content{
+	width : 300px;
+}
+
+.gnb_mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.gnb_img_area:hover .gnb_mask {
+  opacity: 1;
+}
+
+.gnb_img_area img {
+  display: block;
+  width: 80px;
+  height: 80px;
+}
+
+.gnb_change {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+
+/* 내 정보 영역 스타일링 */
+.gnb_txt_area {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 10px;
+}
+
+.gnb_account {
+  margin: 0;
+}
+
+.gnb_name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.gnb_name a {
+  color: #333;
+  text-decoration: none;
+}
+
+.gnb_btn_login {
+  position: relative;
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  background-color: #1ec800;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.gnb_btn_login .gnb_bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1ec800;
+  opacity: 0.7;
+}
+
+.gnb_btn_login .gnb_bdr {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #1ec800;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.gnb_btn_login:hover .gnb_bdr {
+  opacity: 1;
+}
+
+.gnb_btn_login .gnb_txt {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 6px 8px;
+}
+
+.gnb_mail_address {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #666;
+  text-decoration: none;
+}
+
+.gnb_edit_lst {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gnb_edit_lst li {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 12px;
+  color: #333;
+}
+
+.gnb_edit_lst li a {
+  color: #333;
+  text-decoration: none;
+}

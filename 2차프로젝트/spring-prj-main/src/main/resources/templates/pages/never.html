@@ -1,0 +1,1136 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="/css/mainpage.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+<style>
+.itemCell {
+  cursor: pointer;
+  padding: 3px;
+  margin: 3px;
+  margin-top: 5px;
+  outline: 1px solid gray;
+  float:left;
+  font-size:12px;
+  text-align: center;
+  box-sizing: border-box;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Display ellipsis for truncated text */
+}
+
+.itemCell:hover {
+  outline: 1px solid blue;
+}
+
+red {
+  color:red;
+  font-weight: bold;
+}
+
+.titleDiv span{
+  font-size : 14px;
+  font-weight: bold;
+  margin-left: 6px;
+  cursor: pointer;
+  text-align: center;
+  padding: 10px 4px 0px 4px;
+  
+}
+
+.titleDiv span:hover{
+  color:blue;
+}
+
+.titleDiv {
+  padding-top : 5px; 
+  margin-top: 15px;
+}
+
+.itemDiv {
+  display: none;
+}
+
+.d2 {
+  display: inline-block;
+  width: 100px;
+  height: 30px;
+}
+
+</style>
+</head>
+<body>
+    <!-- header contents 시작 -->
+    <div id="header">
+    
+       <!-- 로고 및 검색 -->
+      <div id="logo_search">
+         <img src="/images/Spring.jpg" class="springLogo" />
+         <form class="search-form" action="https://search.naver.com/search.naver" method="GET">
+            <input type="text" placeholder="검색어를 입력해주세요" name = "query">
+            <button type="submit">검색</button>
+         </form>
+      </div>
+
+      <!-- 네비게이션 바  -->
+      <div id="navigation">
+         <!-- 네비게이션 바 리스트 -->
+         <div id="navigation_List">
+            <div id="navigation_List">
+               <div class="nav_list" id="navList">
+                  <div id="nav_blog" class = "nav_items"><a href = "http://192.168.0.213:8092/page/17">블로그</a></div>
+                  <div id="nav_cafe" class = "nav_items"><a href = "http://192.168.0.213:8092/page/18">카페</a></div>
+                  <div id="nav_cafe" class = "nav_items"><a href = "http://192.168.0.213:8092/page/1">T-MarKet</a></div>
+                  <div id="nav_cafe" class = "nav_items"><a href = "http://192.168.0.213:8092/page/2">G-Movie</a></div>
+                  <div id="nav_cafe" class = "nav_items"><a href = "http://192.168.0.213:8092/page/3">Z-Board</a></div>
+                  <div id="nav_cafe" class = "nav_items"><a href = "http://192.168.0.213:8092/page/5">Data</a></div>
+               </div>
+            </div>
+            <!--  db데이터 생성 -->
+         </div>
+
+         <!-- 네비게이션 바 오른쪽 날씨 이미지  -->
+         <div id="NM_WEATHER"> <a href='https://d8e0-123-142-167-54.ngrok-free.app'><i class='fas fa-cloud-sun'>날씨</i> </a></div>
+      </div>
+
+   </div>
+    <!-- header contents here 끝 -->
+      
+    <!-- container contents 시작 -->
+    <div id="main_container">
+      
+      <!-- 왼쪽 컨테이너 시작 -->
+      <div id="left_container">
+
+         <!-- 왼쪽 컨테이너 메뉴바 바로밑 광고  -->
+         <div id="left_addiv">
+         	<img src="https://ssl.pstatic.net/melona/libs/1449/1449241/90a695b61be7a8e01610_20230515121137206.jpg" class="left_addiv_img" />
+         </div>
+         <div id="news_container">
+         </div>
+         <div id="theme_container">
+         <div id = "theme_header"></div>
+         <div id = "theme_body"></div>
+         </div>
+         <div id="webtoon"></div>
+      </div>   
+      <!-- 왼쪽 컨테이너 끝 -->
+
+      <!-- 오른쪽 컨테이너 시작 -->
+      <div id="right_container">
+         <!--          <div id="login"> -->
+<!--             <p id="log_msg">네이버를 더 안전하고 편하게 이용하세요</p> -->
+<!--             <button id="login_btn">NAVER 로그인</a> -->
+<!--          </div> -->
+            <!-- 블로그 로그인 전 -->
+            
+        <div th:unless="${session.userid}"> <!-- 세션에 userid가 있는 경우에 대한 내용 -->
+          <div class="ugc_login">
+            <p class="top_text">스프링을 보다 편리하고 안전하게 이용하세요.</p>
+            <a href="/login"
+               class="login_button"> 
+                  <span class="login_common">Spring 로그인</span>
+            </a>
+            <div class="menu_signin">
+               <div class="sign_in">
+                  <a href="/register"><i class="fa fa-user" aria-hidden="true"> 회원가입</i></a>
+               </div>
+            </div>
+         </div>
+        </div>
+            
+        <div th:if="${session.userid}">
+              <!-- 세션에 userid가 있는 경우에 대한 내용 -->
+              <div id="sc_user">
+                <div class="info_area">
+                  <a href="/logout" id="logout">로그아웃</a> <img id="MY_PROFILE"
+                    src=""
+                    width="56" height="56" alt="">
+                  <div class="user_info">
+                    <div class="info_box">
+                      <a href="/profileUpdate" id="NICK_ID"> <span id="MY_NICKNAME"></span>
+                      </a>
+                      <div class="MY_EMAIL"></div>
+                    </div>
+                    <div class="new_box">
+                      <a href="">메일 <strong class="num MY_MAIL_COUNT">1967</strong>
+                      </a> <a href="">쪽지 <strong class="num MY_NOTE_COUNT">20</strong>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="MY_TAB_AREA">
+                  <div id="NM_MY_TAB" class="tab_scroll">
+                    <div class="tab_box_wrap">
+                      <div class="tab_box">
+                        <div class="tab_btn">알림</div>
+                        <div class="tab_btn">구독</div>
+                        <div class="tab_btn">메일</div>
+                        <div class="tab_btn">카페</div>
+                        <div class="tab_btn">블로그</div>
+                      </div>
+                      <!-- 
+                      <div class="tab_box">
+                        <a href="#">페이<div class="badge_box"></div></a> 
+                        <a href="#">포스트<div class="badge_box"></div></a> 
+                        <a href="#">MYBOX<div class="badge_box"></div></a> 
+                        <a href="#">오피스<div class="badge_box"></div></a>
+                        <a href="#">캘린더<div class="badge_box"></div></a>
+                      </div>
+            
+                      <div class="tab_box type_under5">
+                        <a href="#">해피빈<div class="badge_box"></div></a>
+                        <a href="#">지식iN<div class="badge_box"></div></a>
+                        <a href="#">메모<div class="badge_box"></div></a>
+                        <a href="#">설정</a>
+                      </div> -->
+            
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <script>
+              $('.tab_btn').css('cursor', 'pointer');
+              $('.tab_btn').on('click', () => boxClick());
+            
+              function boxClick() {
+                let scUser = document.querySelector('#sc_user');
+                if(scUser.getAttribute('class') == null){
+                    let div = document.createElement('div');
+                    console.log(scUser);
+                    div.setAttribute('id','extendedBox');
+                    scUser.appendChild(div);
+                    scUser.classList.add('clicked');
+                }else {
+                  $('#extendedBox').remove();
+                  scUser.removeAttribute('class');
+                }	
+              }
+                
+              </script>
+        </div>
+
+         <div id="timesquare"><img src="https://www.ibric.org/upload/icons/icon_0034701.png" width="100%" height="50"/></div>
+         <div id="right_addiv">
+			<img src= "https://ssl.pstatic.net/melona/libs/1448/1448847/49caad0bd3f363fbbbee_20230512170821931.jpg" class="right_addiv_img" style="width:330px;height:200px;"/>
+         </div>
+         <div id="shop"></div>
+         <div id="coupang"></div>
+    </div>
+      </div>
+      <!-- 오른쪽 컨테이너 끝 -->
+    </div>
+    <!-- container contents 끝 -->
+
+    <!-- footer contents here -->
+     <div id="footer">
+      <div id="footer_body">
+         <div id="footer_addiv">
+				<img src="https://ssl.pstatic.net/melona/libs/1287/1287046/814ac0c413f816496ab8_20230515164101056.png" class="footer_addiv_img" style="width:160px; height:80px;">
+				<img src="https://ssl.pstatic.net/melona/libs/1406/1406489/be6c8f106c4c7c28ca29_20230512092201658.jpg" class="footer_addiv_img" style="width:160px; height:80px;">
+				<img src="https://ssl.pstatic.net/melona/libs/1448/1448705/8248e129d0f39a8a682b_20230509145459425.png" class="footer_addiv_img" style="width:160px; height:80px;">
+		 </div>
+         <div id="notice_area">
+         	<div id="notice_area_left">공지사항</div>
+         	<div id="notice_area_right">서비스 전체보기</div>
+         </div>
+         <div id="footer_area">
+            <div id="partner_box">
+            	<div id="partner_box1">Creators&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;크리에이터  스몰비즈니스</div>
+            	<div id="partner_box2">PartnersSME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 풀케어 시스템비즈니스 · 광고스토어 개설지역업체 등록엑스퍼트 등록</div>
+            	<div id="partner_box3">Developers&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 네이버 개발자 센터오픈 API오픈소스네이버 D2네이버 D2SF네이버 랩스</div>
+            </div>
+            <div id="service_box">
+			</div>
+         </div>
+         <div id="corp_area">회사소개&nbsp;｜&nbsp;인재채용&nbsp;｜&nbsp;제휴제안&nbsp;｜&nbsp;이용약관&nbsp;｜&nbsp;개인정보처리방침&nbsp;｜&nbsp;청소년보호정책&nbsp;｜&nbsp;네이버&nbsp;｜&nbsp; 정책고객센터 <div id="corp_area_in">ⓒ NAVER Corp.</div></div>
+      </div>
+   </div>
+
+</body>
+
+<script th:inline="javascript">
+const host = "http://192.168.0.213:8092";
+const imgPath = `${host}/resources/images`;
+let roots; 
+
+$(()=>{
+	// profile 관련
+	$.get('/getProfileImg', data => {
+	  console.log(data);
+	  if(!data){
+		      $('#MY_PROFILE').attr('src','https://static.nid.naver.com/images/web/user/default.png?type=s160');  
+	  }else{
+	    $('#MY_PROFILE').attr('src','data:image/png;base64,' + data);
+	  }
+	});
+	$.get('/getUserInfo', data => {
+		console.log("asd123sa" , data);
+	  $('#MY_PROFILE').attr('alt', data.username);
+	  $('#MY_NICKNAME').html(data.username + '님');
+	  $('.MY_EMAIL').html(data.email);
+	});
+
+	$('#MY_PROFILE').css('cursor','pointer');
+	$('#MY_PROFILE').on('click', ()=> {
+	  window.location.href = '/profileUpdate';
+	})
+})
+
+
+
+
+class PagingData {
+  constructor(path, style) {
+    this.defaultRowCount = 10;
+    this.rowCount = 10;
+    this.maxPage = 10;
+    this.pagingType = 1;
+    this.nowPage = 1;
+    this.setPath(path);
+    this.setStyle(style);
+  }
+
+  setPagingData(pagingData){
+    for(let key in pagingData){
+      this[key] = pagingData[key];
+    }
+  }
+
+  setPath(path) {
+    this.path = path;
+  }
+
+  setSearch(search) {
+    this.addOption("name",CONTAINS,search);
+  }
+
+  setOrderBy(orderBy) {
+    if(orderBy) this.orderBy = orderBy;
+    else this.orderBy = "";
+  }
+
+  setStyle(style) {
+    this.style = style;
+    this.defaultRowCount = style.rows * style.cols || this.defaultRowCount;
+    this.rowCount = this.defaultRowCount;
+    this.maxPage = style.maxPage || this.maxPage;
+    this.pagingType = style.pagingType || this.pagingType;
+  }
+
+  addOption(key, condition, value1="", value2=""){
+    const fo = {key:key, condition:condition, value1:value1, value2:value2};
+    if(!this.option) this.option = [];
+    if(value1.length === 0 && value2.length === 0) {
+      this.removeOption(key,condition);
+      return;
+    }
+    const idx = this.option.findIndex(efo => efo.key === key && efo.condition === condition);
+    if(idx == -1){
+      this.option.push(fo);
+    } else {
+      this.option[idx] = fo;
+    }
+  }
+
+  removeOption(key, condition){
+    this.option = this.option.filter(efo => !(efo.key === key && efo.condition === condition));
+  }
+
+  toParam(){
+    const keys = ["nowPage","rowCount","maxPage","pagingType","orderBy","option","path"];
+    const result = keys.reduce((obj, key) => {
+      obj[key] = (key === "option") ? JSON.stringify(this[key]) : this[key];
+      return obj;
+    }, {});
+    return result;
+  }
+}
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class ItemGrid {
+  constructor(style){
+    this.rows = style.rows || 3;
+    this.cols = style.cols || 3;
+    this.iw = style.iw || 200;
+    this.ih = style.ih || this.iw;
+    this.cw = style.cw || 250;
+    this.ch = style.ch || this.cw;
+    this.style = style;
+    this.type = style.type;
+    this.div = $("<div class='item-grid'></div>");
+  }
+
+  addItemCell = (item) => {
+    const cell = {};
+    cell.div = $("<div class='itemCell'></div>");
+    cell.div.click(()=>window.open().location.href = `${host}/page/reqItemId/${item.id}`);
+    cell.div.css({width:this.cw, height:this.ch});
+    
+    switch(this.type) {
+      case "shop" : 
+      cell.image = $(`<img class='itemImg' src='${imgPath}${item.imagePath}'/>`);
+      cell.image.attr("alt",item.name);
+      cell.image.css({width:this.iw, height:this.ih});
+      cell.div.append(cell.image,`<br>${item.name}<br>`,
+                      item.discount > 0 ? `<red>-${item.discount}%</red>`:"",` ￦${item.dcPrice.toLocaleString()}`);
+      break;
+
+      case "dateText" : 
+      cell.div.append(`${item.regDate} - ${item.name}`);
+      cell.div.css({textAlign:"left"});
+      break;
+
+      case "score" : 
+      cell.image = $(`<img class='itemImg' src='${imgPath}${item.imagePath}'/>`);
+      cell.image.attr("alt",item.name);
+      cell.image.css({width:this.iw, height:this.ih});
+      cell.div.append(cell.image,`<br>${item.name}<br><i class='fas fa-star' style='color: #f3da35'></i>${item.avgScore}`);
+      break;
+
+      case "webtoon" : 
+   	  cell.image = $(`<img class='itemImg' src='${imgPath}${item.imagePath}'/>`);
+      cell.image.attr("alt",item.name);
+      cell.image.css({width:this.iw, height:this.ih});
+      cell.div.append(cell.image,`<br>${item.name}<br><i class='fas fa-star' style='color: #f3da35'></i>${item.avgScore}`);
+      break;
+
+      case "coupang" : 
+      cell.image = $(`<img class='itemImg' src='${imgPath}${item.imagePath}'/>`);
+      cell.image.attr("alt",item.name);
+      cell.image.css({width:this.iw, height:this.ih});
+      cell.div.append(cell.image,`<br>${item.name}<br>`,
+                      item.discount > 0 ? `<red>-${item.discount}%</red>`:"",` ￦${item.dcPrice.toLocaleString()}`);
+      break;
+
+      case "timesquare" : 
+      cell.image = $(`<img class='itemImg' src='${imgPath}${item.imagePath}'/>`);
+      cell.image.attr("alt",item.name);
+      cell.image.css({width:this.iw, height:this.ih});
+      cell.div.append(cell.image,`<br>${item.name}<br>`,
+                      item.discount > 0 ? `<red>-${item.discount}%</red>`:"",` ￦${item.dcPrice.toLocaleString()}`);
+      break;
+      
+    }
+	this.div.append(cell.div);
+  }
+  
+  setItems = (items) => {
+     this.div.empty();
+     items.forEach(i => this.addItemCell(i));
+  }
+}
+
+$(()=>{
+  $.get("/getMenus").done((data)=>{
+     roots = JSON.parse(data);
+     addMenu("shop", "/1/1", {rows:3,cols:3,iw:80,ih:90,cw:100,ch:130,maxPage:1,type:"shop"});
+     addMenu("news_container", "/5/79", {rows:7,cols:1,cw:590,ch:25,maxPage:1,type:"dateText"});
+     addMenu("theme_container", "/5/49", {rows:3,cols:3,iw:150,ih:160,cw:190,ch:210,maxPage:1,type:"score"}); 
+     addMenu("webtoon", "/5/57", {rows:4,cols:5,iw:90,ih:90,cw:110,ch:130,maxPage:1,type:"webtoon"}); 
+     addMenu("coupang", "/5/74", {rows:4,cols:3,iw:80,ih:90,cw:100,ch:130,maxPage:1,type:"coupang"}); 
+    //  addMenu("timesquare", "/5/77", {rows:3,cols:3,iw:80,ih:10,cw:100,ch:15,maxPage:1,type:"timesquare"}); 
+  })
+});
+// http://192.168.0.213:8092/admin/os-home > admin 에서 메뉴 추가하기
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+const 
+EQUALS = "EQUALS", 
+NOT_EQUALS="NOT_EQUALS", 
+GREATER_THAN = "GREATER_THAN",
+LESS_THAN = "LESS_THAN", 
+CONTAINS="CONTAINS", 
+NOT_CONTAINS="NOT_CONTAINS",
+STARTS_WITH="STARTS_WITH",
+ENDS_WITH="ENDS_WITH",
+BETWEEN="BETWEEN";
+
+function findMenu(path, menu) {
+  if(!menu) {
+    for (let i = 0; i < roots.length; i++) {
+      const result = findMenu(path,roots[i]);
+      if(result) return result;
+    }
+  }
+  if (menu && menu.path === path) {
+    return menu;
+  }
+  if (menu && menu.childs) {
+    for (let i = 0; i < menu.childs.length; i++) {
+      const foundMenu = findMenu(path, menu.childs[i]);
+      if (foundMenu) {
+        return foundMenu;
+      }
+    }
+  }
+}
+
+function addMenu(divId, path, s){
+  const menu = findMenu(path);
+  console.log(menu);
+  if(!menu || !menu.childs) return;
+  
+  const div1 = $(divId.startsWith("#") ? divId : "#"+divId);
+  let titleDiv = div1.find(".titleDiv");
+  if(!titleDiv.length) {
+    titleDiv = $(`<div class='titleDiv'><h4 style='padding:10px;border-radius:5px;margin:0px 0px 0px 5px'>${menu.name}</h4></div>`);
+    div1.append(titleDiv);
+  }
+  for(let i=0; i<menu.childs.length; i++){
+    const d2 = menu.childs[i];
+    let pd = new PagingData(d2.path,s);
+    pd.div = $("<div class='itemDiv'>").css({width:s.cols*s.cw+s.cols*10,height:s.rows*s.ch+s.rows*10});
+    console.log(menu.childs[i]);
+    titleDiv.append($(`<span class='d2'>${d2.name}</span>`).click(()=>clickD2()));
+    div1.append(pd.div);
+    updateItems(pd);
+    function clickD2(){
+      div1.find(".itemDiv").css("display","none");
+      pd.div.css("display","block");
+    }
+    function updateItems(pd) {
+      $.get("/getPagingItems",pd.toParam()).done((resData)=>{
+        const table = $("<table>");
+        pd.setPagingData(JSON.parse(resData));
+        const grid = new ItemGrid(s);
+        grid.setItems(pd.data);
+        const td1 = $("<td>").append(grid.div);
+        const td2 = $("<td>").append(createPaging(pd,(pd)=>updateItems(pd)));
+        table.append($("<tr>").append(td1));
+        table.append($("<tr>").append(td2));
+        pd.div.empty().append(table);
+      }).fail(()=>console.log("fail"));
+    }
+    if(i===0) {
+      clickD2();
+    }
+  };
+}
+
+
+function createPaging(pd, updateFunc) {
+  let pagingBar = $("<table id='pagingBar'></table>");
+  let $tr = $("<tr>");
+  pagingBar.append($tr).css("width","100%").css("height","30px");
+  let $td1 = $("<td>").css({textAlign:"center",height:30,width:"100%",});
+  let $td2 = $("<td>");
+  $tr.append($td1,$td2);
+  let startPage = pd.startPage;
+  let endPage = pd.endPage;
+
+  function createLink (page, text) {
+    let linkButton = $("<a class='pagingLink'>" + (text ? text : page) + "</a>");
+    linkButton.css({padding:2,cursor:"pointer"});
+    if(typeof updateFunc === 'function') {
+      linkButton.click(()=>{
+        pd.nowPage = page;
+        updateFunc(pd)
+      });
+    }
+    return linkButton;
+  }
+
+  function addHover(target) {
+    // target.on("mouseover",()=>target.css("background","rgba(210,123,132,0.3)"))
+    // target.on("mouseout",()=>target.css("background","rgba(110,123,232,0.3)"))
+    return target;
+  }
+
+  if (startPage > 1) $td1.append(addHover(createLink(startPage - 1, "◀")));
+  for (let p = startPage; p <= endPage; p++) {
+    let pageLink = createLink(p);
+    if (p == pd.nowPage) {
+        pageLink.css("cursor","default").css("color","blue");
+    } else {
+      addHover(pageLink);
+    }
+    $td1.append(pageLink);
+  }
+  if (endPage < pd.totalPages) {
+    $td1.append(addHover(createLink(endPage + 1, "▶")));
+  }
+  if(startPage === 0) {
+    pagingBar = $("<h4 id='pagingBar' style='text-align:center'>비어있음</h4>");
+  }
+  return pagingBar;
+}
+
+</script>
+</html>
+
+<style>
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+/* ------------------------------------------- */
+/* 헤더 시작 */
+/* ------------------------------------------- */
+#header {
+  position: relative;
+  background-color: #fff;
+  height:150px;
+  width: 960px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+
+#service_area{
+	text-align: right;
+	font-size: 11px;
+}
+
+.fa-chevron-right {
+	border: 1px solid #d1d1d1;
+	border-radius: 10px;	
+}
+
+#logo_search {
+  display: flex;
+  align-items: center; /* 수직 중앙 정렬 */
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.springLogo {
+  height: 52px;
+  width: 222px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.search-form {
+  flex: 1; /* 남은 공간 차지 */
+  display: flex;
+  align-items: center; /* 수직 중앙 정렬 */
+  position: relative;
+}
+
+.search-form input[type="text"] {
+  width: 444px;
+  height: 50px;
+  border: 1px solid #00c73c;
+  color: #333;
+  background-color: #fff;
+  margin-right: 0px;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+  text-indent: 7px;
+}
+
+.search-form input[type="text"]:focus {
+	outline: none;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+#header_img{
+  border: 1px solid;
+  height: 50px;
+  width: 150px;
+  
+}
+
+.search-form button[type="submit"] {
+  width: 55px;
+  height: 54px;
+  color: #fff;
+  border: none;
+  background-color: #00c73c;
+  cursor: pointer;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+/* ------------------------------------------- */
+/* 네비게이션 바 부분 시작 */
+/* ------------------------------------------- */
+#navigation {
+  display: flex;
+  height: 60px;
+  border-radius: 10px;
+/*   background-color: #03c75a; */
+  background-color: #00c73c;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  text-decoration: none;
+}
+
+#navigaiont_List {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding-left: 8px;
+  background-color: #eee;
+}
+
+#navList {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* li 요소들 사이의 간격을 벌리기 위해 추가 */
+  width: 100%; /* 부모 요소인 #navigation의 너비에 맞게 설정 */
+  margin : 10px;
+}
+
+.nav_items{
+   margin-left: 15px;
+   font-family: 'Nanum Gothic', sans-serif;
+}
+
+.nav_items a{
+  text-decoration: none;
+  font-weight: bold;
+  color:white;
+}
+
+.nav_items a:hover{
+  color:navy;
+}
+
+/* NM_WEATHER 부분  시작*/
+#NM_WEATHER {
+  margin-top: 10px;
+  width: 120px;
+  height: 24px;
+  margin: 8px 0px 0px 4px;
+  background-color: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 2px;
+  text-align: center;
+  line-height: 24px;
+  font-size: 14px;
+  color: #333;
+}
+/* NM_WEATHER  부분  끝*/
+
+
+/* ------------------------------------------- */
+/* 네비게이션 바 부분 끝 */
+/* ------------------------------------------- */
+/* ------------------------------------------- */
+/* 헤더 끝 */
+/* ------------------------------------------- */
+
+/* ------------------------------------------- */
+/* container 부분 시작*/
+/* ------------------------------------------- */
+#main_container {
+  display: flex;
+  width: 960px;
+  height:auto;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 900px;
+  margin-bottom: 30px;
+}
+
+/* left_container 부분 */
+#left_container{
+  flex: 2;
+}
+
+/* ------------------------------------------- */
+/* addiv  부분  시작*/
+/* ------------------------------------------- */
+#left_addiv {
+  position: relative;
+  height:135px;
+}
+
+.left_addiv_img {
+  width:606px;
+  height: 135px;
+}
+/* ------------------------------------------- */
+/* addiv  부분  끝*/
+/* ------------------------------------------- */
+
+/* ------------------------------------------- */
+/* news  부분  시작*/
+/* ------------------------------------------- */
+#news_container {
+  position: relative;
+  top: 10px; /* 원하는 위치로 조정 */
+  height:380px;
+  border: 1px solid #ccc;
+}
+#news_LR{
+   display:flex;
+}
+
+#news_right_LR{
+   height:90%;
+   display:flex;
+}
+
+#first_news{
+   height:100%;
+   width:40%;
+   background-color: gray;
+}
+#first_news_img{
+   width : 100%;
+   height:70%;
+}
+
+#news_title{
+   width : 30%;
+   height:30%;
+}
+
+#news_titles{
+   width:60%;
+}
+
+#news_top{
+   height:10%;
+   background-color: black;
+   display:flex;
+}
+#news_LR{
+   height:90%;
+   background-color: orange;
+}
+#news_left{
+   height:90%;
+   width:20%;
+   background-color: yellow;
+}
+#news_right{
+   height:90%;
+   width:80%;
+   background-color: cyan;
+}
+
+#news_right_Top{
+   height:10%;
+   background-color: black;
+}
+/* ------------------------------------------- */
+/* news  부분  끝*/
+/* ------------------------------------------- */
+
+
+/* ------------------------------------------- */
+/* theme_container  부분  시작*/
+/* ------------------------------------------- */
+#theme_container {
+  position: relative;
+  top: 10px; /* 원하는 위치로 조정 */
+  height: 800px;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+}
+
+#webtoon{
+  height:700px;
+  
+}
+
+.d2 {
+  width: 70px;
+
+}
+
+.d2:active,
+.d2.active {
+  background-color: #ccc;
+}
+/* ------------------------------------------- */
+/* theme_container  부분  끝*/
+/* ------------------------------------------- */
+
+
+/* right_container 부분 */
+#right_container{
+   flex: 1;
+   margin-left:20px;
+}
+
+/* ------------------------------------------- */
+/* container 부분 시작 */
+/* ------------------------------------------- */
+.webtoon {
+  border-top: 1px solid #ccc;
+}
+
+/* ------------------------------------------- */
+/* container 부분 끝 */
+/* ------------------------------------------- */
+
+/* ------------------------------------------- */
+/* login  부분  시작*/
+/* ------------------------------------------- */
+#login {
+  position: relative;
+  top: 10px; /* 원하는 위치로 조정 */
+  height:200px;
+  background-color: orange;
+}
+
+.titleDiv h4 {
+  margin-top: 10px;
+  padding-left: 20px;
+  font-size: 20px;
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+.titleDiv h4 {
+/*   background-color: #e4e8eb; */
+/*   background-color: #d2c3df; */
+  background-color: #92d173;
+}
+
+
+/* 블로그 로그인 전 */
+.ugc_login {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   font-size: 15px;
+   line-height: 1.5;
+   color: #8c8c8c;
+   background-color: #f6f6f6;
+   padding: 16px 24px;
+   border: 1px solid #ccc;
+}
+
+.top_text {
+   font-size: 12px;
+   font-weight: bold;
+   margin-bottom: 12px;
+}
+
+.login_button {
+   display: inline-block;
+   margin-bottom: 10px;
+   border: 1px solid #00c73c;
+   border-radius: 2px;
+   background-color: #00c73c;
+   padding: 10px 80px;
+   color: #fff;
+   font-size: 14px;
+   text-decoration: none;
+   text-align: center;
+   transition: background-color 0.3s;
+}
+
+.login_button:hover {
+   background-color: white;
+   color:#00c73c;
+}
+
+.menu_signin {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+   margin-top: 10px;
+   font-size: 12px;
+}
+
+.info_find, .sign_in {
+   display: inline-block;
+}
+
+.info_find a, .sign_in a {
+   color: #8c8c8c;
+   text-decoration: none;
+}
+
+.info_find a:hover, .sign_in a:hover {
+   text-decoration: underline;
+}
+
+.bar {
+   display: inline-block;
+   margin: 0 6px;
+   width: 1px;
+   height: 10px;
+   background-color: #8c8c8c;
+}
+/* ------------------------------------------- */
+/* login  부분  끝*/
+/* ------------------------------------------- */
+
+/* ------------------------------------------- */
+/* timesquare  부분  시작*/
+/* ------------------------------------------- */
+#timesquare {
+  position: relative;
+  background-image: url();
+  /* top: 10px; 원하는 위치로 조정 */
+  height:50px;
+  border: 1px solid #ccc; 
+}
+/* ------------------------------------------- */
+/* timesquare  부분  끝*/
+/* ------------------------------------------- */
+
+/* ------------------------------------------- */
+/* right_addiv  부분  시작*/
+/* ------------------------------------------- */
+#right_addiv {
+  position: relative;
+  top: 10px; /* 원하는 위치로 조정 */
+  height:200px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* ------------------------------------------- */
+/* right_addiv  부분  끝*/
+/* ------------------------------------------- */
+
+/* ------------------------------------------- */
+/* shop  부분  시작*/
+/* ------------------------------------------- */
+#shop {
+  position: relative;
+  top: 10px; /* 원하는 위치로 조정 */
+  height:560px;
+  border:1px solid #ccc;
+  margin-bottom: 30px;
+  margin-top: 0px;
+  /* display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr); */
+}
+
+/* ------------------------------------------- */
+/* shop 부분  끝*/
+/* ------------------------------------------- */
+
+
+/* ------------------------------------------- */
+/* coupang 부분 시작*/
+/* ------------------------------------------- */
+#coupang {
+  border:1px solid #ccc;
+  height:700px;
+}
+
+/* ------------------------------------------- */
+/* coupang 부분  끝*/
+/* ------------------------------------------- */
+
+
+
+
+/* ------------------------------------------- */
+/* container 부분 끝 */
+/* ------------------------------------------- */
+
+
+/* ------------------------------------------- */
+/* footer 부분 시작 */
+/* ------------------------------------------- */
+
+#footer {
+  position: relative;
+  height: 350px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #e4e8eb;
+  border-top: 1px solid #ccc; 
+  color:black;
+}
+
+#footer_body {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+  width: 960px;
+  min-height: 130px;
+}
+
+#footer_addiv {
+  height:100px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.footer_addiv_img {
+  padding-top: 10px;
+  padding-right: 150px;
+}
+
+#notice_area {
+  display: flex;
+  align-items: center;
+  height:20px;
+  border-top: 1px solid #ccc; 
+  border-bottom: 1px solid #ccc; 
+  font-size:12px;
+  font-weight:700;
+}
+
+#notice_area_left {
+  text-align: left;
+  margin-right:820px;
+}
+#notice_area_right {
+  text-align: right;
+}
+
+#footer_area {
+  display: flex;
+  height: 80px;
+  border-bottom: 1px solid #ccc; 
+}
+
+#partner_box {
+  flex:2;
+  font-size:12px;
+  padding: 5px;
+}
+#partner_box1 {
+  padding-top: 10px;
+}
+
+
+
+#service_box {
+  flex:1;	
+}
+
+#corp_area {
+  display:flex;
+  height:50px;
+  font-size:12px;
+  padding-top: 20px;
+  font-color:#777;
+  
+}
+
+#corp_area_in {
+  color: black;
+  font-weight: 700;
+  margin-left: 20px;
+}
+
+
+
+
+
+
+
+
+
+</style>
+ 
+  
+

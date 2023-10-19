@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/main.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/util/utils.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<style>
+.itemCell {
+  cursor: pointer;
+  padding: 3px;
+  margin: 3px;
+  outline: 1px solid gray;
+  float:left;
+  font-size:12px;
+  text-align: center;
+  box-sizing: border-box;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Display ellipsis for truncated text */
+}
+
+.itemCell:hover {
+  outline: 1px solid blue;
+}
+
+red {
+  color:red;
+  font-weight: bold;
+}
+
+.titleDiv span{
+  font-size : 14px;
+  font-weight: bold;
+  margin-left: 6px;
+  cursor: pointer;
+  outline: 1px solid gray;
+  text-align: center;
+  padding: 0px 4px 0px 4px;
+}
+
+.titleDiv {
+  padding-top : 5px;
+  overflow-x: auto;
+}
+
+.itemDiv {
+  display: none;
+}
+
+</style>
+</head>
+<body>
+    <!-- header contents 시작 -->
+    <div id="header">
+    
+    	<!-- 로고 및 검색 -->
+		<div id="logo_search">
+			<div class="logo">Naver</div>
+			<form class="search-form">
+				<input type="text" placeholder="검색어를 입력해주세요">
+				<button type="submit">검색</button>
+			</form>
+		</div>
+
+		<!-- 네비게이션 바  -->
+		<div id="navigation">
+			<!-- 네비게이션 바 리스트 -->
+			<div id="navigation_List">
+				<div id="navigation_List">
+					<div class="nav_list" id="navList">
+						<div id="nav_blog" class = "nav_items"><a href = "#">블로그</a></div>
+						<div id="nav_cafe" class = "nav_items"><a href = "#">카페</a></div>
+					</div>
+				</div>
+				<!--  db데이터 생성 -->
+			</div>
+
+			<!-- 네비게이션 바 오른쪽 날씨 이미지  -->
+			<div id="NM_WEATHER">NM_WEATHER</div>
+		</div>
+
+	</div>
+    <!-- header contents here 끝 -->
+		
+    <!-- container contents 시작 -->
+    <div id="main_container">
+		
+		<!-- 왼쪽 컨테이너 시작 -->
+		<div id="left_container">
+
+			<!-- 왼쪽 컨테이너 메뉴바 바로밑 광고  -->
+			<div id="left_addiv">left_addiv</div>
+			<div id="news_container">
+			</div>
+			<div id="theme_container">
+			<div id = "theme_header"></div>
+			<div id = "theme_body"></div>
+			</div>
+		</div>	
+		<!-- 왼쪽 컨테이너 끝 -->
+
+		<!-- 오른쪽 컨테이너 시작 -->
+		<div id="right_container">
+			<div id="login">login</div>		
+			<div id="timesquare">timesquare</div>
+			<div id="right_addiv">right_addiv</div>
+			<div id="shop"></div>
+    </div>
+		</div>
+		<!-- 오른쪽 컨테이너 끝 -->
+    </div>
+    <!-- container contents 끝 -->
+
+    <!-- footer contents here -->
+    <div id="footer">
+		<div id="footer_addiv">footer_addiv</div>
+		<div id="notice_area">notice_area</div>
+		<div id="footer_area">footer_area</div>
+    </div>
+</body>
+
+<script th:inline="javascript">
+const host = "http://192.168.0.213:8092";
+const imgPath = `${host}/resources/images`;
+
+class PagingData {
+  constructor(path, style) {
+    this.defaultRowCount = 10;
+    this.rowCount = 10;
+    this.maxPage = 1;
+    this.pagingType = 1;
+    this.nowPage = 1;
+    this.setPath(path);
+    this.setStyle(style);
+  }
+
+  setPagingData(pagingData){
+    for(let key in pagingData){
+      this[key] = pagingData[key];
+    }
+  }
+
+  setPath(path) {
+    this.addOption("path",STARTS_WITH,path);
+    this.path = path;
+  }
+
+  setSearch(search) {
+    this.addOption("name",CONTAINS,search);
+  }
+
+  setOrderBy(orderBy) {
+    if(orderBy) this.orderBy = orderBy;
+    else this.orderBy = "";
+  }
+
+  setStyle(style) {
+    this.style = style;
+    this.defaultRowCount = style.rows * style.cols || this.defaultRowCount;
+    this.rowCount = this.defaultRowCount;
+    this.maxPage = style.maxPage || this.maxPage;
+    this.pagingType = style.pagingType || this.pagingType;
+  }
+
+  addOption(key, condition, value1="", value2=""){
+    const fo = {key:key, condition:condition, value1:value1, value2:value2};
+    if(!this.option) this.option = [];
+    if(value1.length === 0 && value2.length === 0) {
+      this.removeOption(key,condition);
+      return;
+    }
+    const idx = this.option.findIndex(efo => efo.key === key && efo.condition === condition);
+    if(idx == -1){
+      this.option.push(fo);
+    } else {
+      this.option[idx] = fo;
+    }
+    
+  }
+
+  removeOption(key, condition){
+    this.option = this.option.filter(efo => !(efo.key === key && efo.condition === condition));
+  }
+
+  toParam(){
+    const keys = ["nowPage","rowCount","maxPage","pagingType","orderBy","option"];
+    const result = keys.reduce((obj, key) => {
+      obj[key] = (key === "option") ? JSON.stringify(this[key]) : this[key];
+      return obj;
+    }, {});
+    return result;
+  }
+}
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class ItemGrid {
+  constructor(style){
+    this.rows = style.rows || 3;
+    this.cols = style.cols || 3;
+    this.iw = style.iw || 200;
+    this.ih = style.ih || this.iw;
+    this.cw = style.cw || 250;
+    this.ch = style.ch || this.cw;
+    this.style = style;
+    this.type = style.type;
+    this.div = $("<div class='item-grid'></div>");
+  }
+
+  addItemCell = (item) => {
+    const cell = {};
+    cell.div = $("<div class='itemCell'></div>");
+    cell.div.click(()=>window.open().location.href = `/page/reqItemId/${item.id}`);
+    cell.div.css({width:this.cw, height:this.ch});
+    
+    switch(this.type) {
+      case "shop" : 
+      cell.image = $(`<img class='itemImg' src='${imgPath}${item.imagePath}'/>`);
+      cell.image.attr("alt",sliceText(item.name,20));
+      cell.image.css({width:this.iw, height:this.ih});
+      cell.div.append(cell.image,`<br>${sliceText(item.name,this.style.sliceText)}<br>`,
+                      item.discount > 0 ? `<red>-${item.discount}%</red>`:"",` ￦${item.dcPrice.toLocaleString()}`);
+      break;
+
+      case "dateText" : 
+      cell.div.append(`${item.regDate} - ${item.name}`);
+      cell.div.css({textAlign:"left"});
+      break;
+
+      case "score" : 
+      cell.image = $(`<img class='itemImg' src='${imgPath}${item.imagePath}'/>`);
+      cell.image.attr("alt",sliceText(item.name,20));
+      cell.image.css({width:this.iw, height:this.ih});
+      cell.div.append(cell.image,`<br>${sliceText(item.name,this.style.sliceText)}<br><i class='fas fa-star' style='color: #f3da35'></i><${item.avgScore}`);
+      break;
+    }
+
+    this.div.append(cell.div);
+  }
+  
+  setItems = (items) => {
+     this.div.empty();
+     items.forEach(i => this.addItemCell(i));
+  }
+}
+
+$(()=>{
+  $.get("/getMenus").done((data)=>{
+    roots=data
+    addMenu("shop", "/1/1", {rows:3,cols:3,iw:70,ih:70,cw:95,ch:110,type:"shop"});
+    addMenu("news_container", "/1/42", {rows:5,cols:1,cw:600,ch:25,type:"dateText"});
+    addMenu("theme_container", "/5/49", {rows:3,cols:3,iw:80,ih:80,cw:105,ch:125,type:"score"});
+  });
+});
+// http://192.168.0.213:8092/getMenus > roots 받기
+// http://192.168.0.213:8092/admin/os-home > admin 에서 메뉴 추가하기
+// http://192.168.0.213:8092/getPagingList > itemList 받기
+
+
+// @RequestMapping(value="/getPagingItems", produces = "text/plain; charset=utf8")
+// 	@ResponseBody
+// 	public String getPagingItems2(String path, long rowCount, long maxPage, long nowPage) {
+//         RestTemplate restTemplate = new RestTemplate();
+//         String url = "http://192.168.0.213:8092/getPagingItems2?path="+path+"&rowCount="+rowCount+"&maxPage="+maxPage+"&nowPage="+nowPage;
+// 	    String result = new Gson().toJson(restTemplate.getForObject(url, String.class));
+//         return result;
+// 	}
+// @RequestMapping(value="/getMenus", produces = "text/plain; charset=utf8")
+// 	@ResponseBody
+// 	public String getMenus(String path, long rowCount, long maxPage, long nowPage) {
+//         RestTemplate restTemplate = new RestTemplate();
+//         String url = "http://192.168.0.213:8092/getMenus2";
+// 	    String result = new Gson().toJson(restTemplate.getForObject(url, String.class));
+//         return result;
+// 	}
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+const 
+EQUALS = "EQUALS", 
+NOT_EQUALS="NOT_EQUALS", 
+GREATER_THAN = "GREATER_THAN",
+LESS_THAN = "LESS_THAN", 
+CONTAINS="CONTAINS", 
+NOT_CONTAINS="NOT_CONTAINS",
+STARTS_WITH="STARTS_WITH",
+ENDS_WITH="ENDS_WITH",
+BETWEEN="BETWEEN";
+
+let roots; 
+
+
+function findMenu(path, menu) {
+  if(!menu) {
+    for (let i = 0; i < roots.length; i++) {
+      const result = findMenu(path,roots[i]);
+      if(result) return result;
+    }
+  }
+  if (menu && menu.path === path) {
+    return menu;
+  }
+  if (menu && menu.childs) {
+    for (let i = 0; i < menu.childs.length; i++) {
+      const foundMenu = findMenu(path, menu.childs[i]);
+      if (foundMenu) {
+        return foundMenu;
+      }
+    }
+  }
+}
+
+function addMenu(divId, path, s){
+  const menu = findMenu(path);
+  console.log(menu);
+  if(!menu || !menu.childs) return;
+  
+  const div1 = $(divId.startsWith("#") ? divId : "#"+divId);
+  let titleDiv = div1.find(".titleDiv");
+  if(!titleDiv.length) {
+    titleDiv = $(`<div class='titleDiv'><h4 style='padding:0;margin:0px 0px 0px 5px'>${menu.name}</h4></div>`);
+    div1.append(titleDiv);
+  }
+  for(let i=0; i<menu.childs.length; i++){
+    const d2 = menu.childs[i];
+    let pd = new PagingData(d2.path,s);
+    pd.div = $("<div class='itemDiv'>").css({width:s.cols*s.cw+s.cols*10,height:s.rows*s.ch+s.rows*10});
+    console.log(menu.childs[i]);
+    titleDiv.append($(`<span class='d2'>${d2.name}</span>`).click(()=>clickD2()));
+    div1.append(pd.div);
+    updateItems(pd);
+    function clickD2(){
+      div1.find(".itemDiv").css("display","none");
+      pd.div.css("display","block");
+    }
+    function updateItems(pd) {
+      $.get("/getPagingItems",pd.toParam()).done((resData)=>{
+        const table = $("<table>");
+        pd.div.empty().append(table);
+        pd.setPagingData(resData);
+        const grid = new ItemGrid(s);
+        grid.setItems(pd.data);
+        const td1 = $("<td>").append(grid.div);
+        const td2 = $("<td>").append(createPaging(pd,()=>updateItems(pd)));
+        table.append($("<tr>").append(td1));
+        table.append($("<tr>").append(td2));
+      }).fail(()=>console.log("fail"));
+    }
+    if(i===0) {
+      clickD2();
+    }
+  };
+}
+
+
+function createPaging(pd, updateFunc) {
+  let pagingBar = $("<table id='pagingBar'></table>");
+  let $tr = $("<tr>");
+  pagingBar.append($tr).css("width","100%").css("height","40px");
+  let $td1 = $("<td>").css({textAlign:"center",height:35,width:"100%",});
+  let $td2 = $("<td>");
+  $tr.append($td1,$td2);
+  let startPage = pd.startPage;
+  let endPage = pd.endPage;
+
+  function createLink (page, text) {
+    let linkButton = $("<a class='pagingLink'>" + (text ? text : page) + "</a>");
+    linkButton.css({padding:2,cursor:"pointer"});
+    if(typeof updateFunc === 'function') {
+      linkButton.click(()=>{
+        pd.nowPage = page;
+        updateFunc()
+      });
+    }
+    return linkButton;
+  }
+
+  function addHover(target) {
+    // target.on("mouseover",()=>target.css("background","rgba(210,123,132,0.3)"))
+    // target.on("mouseout",()=>target.css("background","rgba(110,123,232,0.3)"))
+    return target;
+  }
+
+  if (startPage > 1) $td1.append(addHover(createLink(startPage - 1, "◀")));
+  for (let p = startPage; p <= endPage; p++) {
+    let pageLink = createLink(p);
+    if (p == pd.nowPage) {
+        pageLink.css("cursor","default").css("color","blue");
+    } else {
+      addHover(pageLink);
+    }
+    $td1.append(pageLink);
+  }
+  if (endPage < pd.totalPages) {
+    $td1.append(addHover(createLink(endPage + 1, "▶")));
+  }
+  if(startPage === 0) {
+    pagingBar = $("<h4 id='pagingBar' style='text-align:center'>비어있음</h4>");
+  }
+  return pagingBar;
+}
+</script>
+</html>

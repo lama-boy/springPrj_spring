@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/css/registerForm.css" />
+<title>네이버 회원가입</title>
+<style>
+form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/registerForm.js"></script>
+<script>
+	$(function() {
+		$("#includeheader").load("/include/header_logo.html");
+	});
+</script>
+</head>
+<body>
+	<div id="headerImgDiv">
+		<div id = "imgDiv">
+			<img src = "/images/springImg.jpg" id = "headerImg"/>
+		</div>
+	</div>
+	<div id="formwrapper">
+		<form id="form">
+			<div>
+				<label for="id">아이디:</label> <input type="text" id="id" name="id">
+			</div>
+			<span id="iderror"></span>
+			<div>
+				<label for="pw">비밀번호:</label> <input type="password" id="pw"
+					name="pw">
+			</div>
+			<div>
+				<label for="pwconfirm">비밀번호 확인:</label> <input type="password"
+					id="pwconfirm" name="pwconfirm">
+			</div>
+			<div>
+				<label for="name">이름:</label> <input type="text" id="name"
+					name="name">
+			</div>
+			<div id = "emailDiv">
+				<label for="email">이메일:</label> <input type="email" id="email"
+					name="email">
+				<btn id = "sendMail">발송</btn>
+			</div>
+			<div>
+				<label for="authEmail">이메일인증</label> <input type="authmail" id="authmail"
+					name="authmail"><div id = "btnok">확인</div>
+			</div>
+			<div>
+				<label for="mobile">휴대폰 번호:</label> <input type="tel" id="mobile"
+					name="mobile">
+			</div>
+			<btn type="button" onclick="join()" id="registerButton">가입하기</btn>
+		</form>
+	</div>
+	<input type = "hidden" id = "hidden" value = ""/>
+</body>
+</html>

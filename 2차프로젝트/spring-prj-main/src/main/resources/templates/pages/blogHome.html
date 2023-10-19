@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/blogHome.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/blogHome.js"></script>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="header"></div>
+		<div id="nav"></div>
+		<div id="hotTopicWrapper">
+			<div id="hotTopicTopLeft">핫토픽</div>
+			<div id="buttonContainer">
+				<button class="toggle_btn" id = "btn_left" onclick=move(+1) value ="<"></button> 
+				<button class="toggle_btn" id = "btn_right" onclick=move(-1) value ="<"></button> 
+			</div>
+			<div id="hotTopicTop"></div>
+			<div id="hotTopicContWrapper"></div>
+		</div>
+		<div id=container_wrapper>
+			<div id="container_left">
+				<div id="leftHeader"></div>
+				<div id="leftBody"></div>
+				<div id="buttonDiv">
+					<input type="button" id="itemsBtn" value="펼쳐보기" />
+				</div>
+			</div>
+			<div id="container_right">
+				<div id="login">로그인 ㅎㅎ</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

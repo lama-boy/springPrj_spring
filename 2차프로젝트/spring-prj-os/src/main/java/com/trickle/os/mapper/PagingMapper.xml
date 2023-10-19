@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PagingMapper">
+<sql id = "pagingQuery">
+   SELECT ${columns} FROM (
+   SELECT ${columns} FROM (
+   SELECT ${columns}, ROWNUM AS RN FROM (
+   SELECT ${columns} FROM ${tableName}
+   ${whereQuery}
+   <if test="orderBy != null and orderBy != ''">
+   ORDER BY ${orderBy}
+   </if>
+   ) ) 
+   WHERE RN >= #{startRow}) 
+   WHERE ROWNUM <![CDATA[<=]]> #{rowCount}
+</sql>
+
+<select id="getTotalRows" parameterType="map" resultType="long">
+  SELECT count(*) FROM ${tableName}
+ 	WHERE (PATH = '/' or PATH = #{path} or PATH LIKE '${path}/%') 
+   <if test="whereQuery != null and whereQuery != ''">
+   		AND ${whereQuery}
+	</if>
+</select>
+
+<select id="getPagingItems" parameterType="map" resultType="ItemVo">
+ SELECT ${columns}, (SELECT NAME FROM USERS u WHERE ID = i.USER_ID) as USER_NAME
+ FROM (
+   SELECT ${columns} FROM (
+   SELECT ${columns}, ROWNUM AS RN FROM (
+   SELECT ${columns} FROM ${tableName}
+   WHERE (PATH = '/' or PATH = #{path} or PATH LIKE '${path}/%') 
+   <if test="whereQuery != null and whereQuery != ''">
+   		AND ${whereQuery}
+   </if>
+   <if test="orderBy != null and orderBy != ''">
+   ORDER BY ${orderBy}
+   </if>
+   <if test="orderBy == null or orderBy == ''">
+   ORDER BY REG_DATE DESC
+   </if>
+   
+   ) ) 
+   WHERE RN >= #{startRow}) i
+   WHERE ROWNUM <![CDATA[<=]]> #{rowCount}
+ </select>
+
+<select id="getPagingComments" parameterType="map" resultType="CommentVo">
+ SELECT ${columns}, (SELECT NAME FROM USERS u WHERE ID = i.USER_ID) as USER_NAME
+ FROM (
+   SELECT ${columns} FROM (
+   SELECT ${columns}, ROWNUM AS RN FROM (
+   SELECT ${columns} FROM ${tableName}
+   WHERE (PATH = '/' or PATH = #{path} or PATH LIKE '${path}/%') 
+   <if test="whereQuery != null and whereQuery != ''">
+   		AND ${whereQuery}
+   </if>
+   <if test="orderBy != null and orderBy != ''">
+   ORDER BY ${orderBy}
+   </if>
+   ) ) 
+   WHERE RN >= #{startRow}) i
+   WHERE ROWNUM <![CDATA[<=]]> #{rowCount}</select>
+</mapper>

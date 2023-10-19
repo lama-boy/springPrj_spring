@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/profileUpdate.js"></script>
+<link rel="stylesheet" href="/css/profileUpdate.css" />
+</head>
+<body>
+	<div id="header">
+    
+		<!-- 로고 및 검색 -->
+	   <div id="top">
+		  <a href="/" id="header_logo"> 
+			 <img src="/images/springImg.jpg" id = "header_logo"/>
+		  </a>
+		  <button id = "logoutBtn" onclick="window.location.href = '/logout'">로그아웃</button>
+	   </div>
+	</div>
+	<div id="container" style="height: 744px;">
+		<!-- CONTENTS -->
+		<div id="content" style="background-color: #fff;">
+			<div class="c_header">
+				<h2>프로필 수정</h2>
+				<p class="contxt">네이버 대표 프로필과 별명을 수정 하실 수 있습니다.</p>
+			</div>
+			<form id="profileForm" method="post" enctype="multipart/form-data">
+				<input type="hidden" id="helpToken" name="token_help"
+					value="hc7mbMq9vrMMPTT3"> <input type="hidden"
+					id="deleteYn" name="deleteYn" value="N"> <input
+					type="hidden" id="ieLessThan9Yn" name="ieLessThan9Yn" value="N">
+				<table class="tbl_model">
+					<tbody>
+						<tr id="table_top">
+							<th scope="row" id="profile_picture">
+								<div class="thcell">프로필 사진</div>
+							</th>
+							<td>
+								<div class="tdcell">
+									<div class="profile_photo">
+										<img id="imgThumb"
+											src="https://static.nid.naver.com/images/web/user/default.png?type=s160">
+											<div class="my_picture">
+											 	<input type="file" id="file-input" style="opacity: 0; position: absolute;">
+											</div>
+									</div>
+									<div class="btn_area_btm">
+										<span class="btn_file"> <label for="inputImage"
+											class="btn_model"> <b id="btnChangeProfile"
+												class="btn2">사진변경</b>
+										</label>
+										</span> <a class="btn_model" id="new"> <b id="btnAvatar"
+											class="btn2">캐릭터만들기</b>
+										</a> <a class="btn_model" id="del"> <b id="btnDelete"
+											class="btn2 btn_disable">삭제</b>
+										</a>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row" id="nick_th">
+								<div class="thcell">
+									<label for="inpNickname">별명</label>
+								</div>
+							</th>
+							<td>
+								<div class="tdcell">
+									<p class="contxt_webctrl nickname">
+										<input type="text" name="nickname" id="inpNickname"
+											class = "inpNickname" value = "" style="width: 254px">
+									</p>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="btn_wrap">
+					<a class="btn_model"> <b id="btnConfirm"
+						class="btn2 txt_disable">적용</b>
+					</a> <a href = "/" class="btn_model"> <b id="btnCancel" class="btn2">취소</b>
+					</a>
+				</div>
+			</form>
+			<div class="resize-triggers">
+				<div class="expand-trigger">
+					<div style="width: 955px; height: 599px;"></div>
+				</div>
+				<div class="contract-trigger"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

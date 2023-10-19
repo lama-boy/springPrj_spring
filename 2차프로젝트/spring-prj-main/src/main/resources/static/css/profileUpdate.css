@@ -1,0 +1,222 @@
+/* header */
+
+#header {
+    position: relative;
+    background-color: #fff;
+    height:55px;
+    width: 100%;
+    padding: 5px;
+    margin: 0 auto;
+    background-color: #00c73c;
+    justify-content: center; /* 수평 중앙 정렬 */
+  }
+  
+  #top {
+    margin:auto;
+    display: flex;
+    justify-content: space-between;
+    height: 55px;
+    width:960px;
+    margin-bottom: 20px;
+    align-items: center;
+    padding-left:10px;
+    padding-right:10px;
+  }
+  
+  #header_logo {
+    height: 40px;
+    width: 160px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  #header_myId {
+    flex: 1; /* 남은 공간 차지 */
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    position: relative;
+    font-size:20px;
+  }
+  
+  #logoutBtn {
+    width: 70px;
+    height: 25px;
+    color: black;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+  }
+  
+  #header_logout:hover {
+    background-color: green;
+  }
+  
+
+
+/* 전체 폰트 설정 */
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 컨테이너 스타일 */
+#container {
+    margin: 0 auto;
+    width: 960px;
+}
+
+/* 헤더 스타일 */
+.c_header {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.c_header h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
+.contxt {
+    font-size: 14px;
+    color: #999;
+    margin-top: 10px;
+}
+
+/* 입력 폼 스타일 */
+.tbl_model {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+}
+
+.tbl_model th {
+    width: 150px;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 10px 0;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tbl_model td {
+    padding: 10px 0;
+    vertical-align: top;
+    border-bottom: 1px solid #ddd;
+}
+
+.thcell {
+    position: relative;
+    margin-right: 10px;
+    text-align: center;
+}
+
+#profile_picture {
+	border-right: 1px solid #ddd;
+	background-color: #eee;
+}
+
+#imgThumb {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; 
+  display: inline-block;
+}
+
+#table_top {
+	border-top: 1px solid #ddd;
+}
+
+#nick_th {
+	border-right: 1px solid #ddd;
+	background-color: #eee;
+	text-align:center; 
+}
+
+.thcell .ico_help {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: url(https://ssl.pstatic.net/static/helpcenter/icon_w_2018.png) no-repeat;
+    width: 19px;
+    height: 19px;
+    text-indent: -9999px;
+}
+
+.tdcell {
+    position: relative;
+    padding: 20px;
+}
+
+/* 프로필 사진 스타일 */
+.profile_photo {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.profile_photo img {
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+}
+
+.btn_file {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.btn_wrap {
+	text-align: center;
+}
+
+.btn_model {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.btn2 {
+    display: inline-block;
+    padding: 7px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #00c73c;
+    border-radius: 5px;
+    cursor: pointer;
+    -webkit-transition: background-color .3s ease-in-out;
+    -moz-transition: background-color .3s ease-in-out;
+    transition: background-color .3s ease-in-out;
+}
+
+.btn2:hover {
+    background-color: #009d2e;
+}
+
+.btn_disable {
+    background-color: #ddd;
+    cursor: default;
+}
+
+.my_picture {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    -webkit-transition: opacity .3s ease-in-out;
+    -moz-transition: opacity .3s ease-in-out;
+    transition: opacity .3s ease-in-out;
+    cursor: pointer;
+}
+
+.mask:hover {
+    opacity: 1;
+}
+
+/* 별명 스타일 */

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserMapper">
+<select id="getUsers" resultType="UserVo">
+select * from users
+</select>
+
+<select id="getUserInfoById" resultType="UserVo">
+select * from users where userid = #{userid}
+</select>
+
+<select id="profileImg" resultType="_byte[]">
+  select profileimage from users where userid = #{userid}
+</select>
+
+<!-- <select id="defaultImg" resultType="_byte[]"> -->
+<!--   select profileimage from users where userid = 'defaultimageUser' -->
+<!-- </select> -->
+
+<select id="authUser" resultType="UserVo">
+select userid, nickname from users where userid = #{userid} and password = #{password}
+</select>
+
+<select id="getUserInfo" resultType="UserVo">
+select * from users where userid = #{userid} and password = #{password}
+</select>
+
+<select id="userIdCheck" resultType="String">
+  select userid from users where userid = #{userid}
+</select>
+
+
+
+<insert id = "userInsert">
+  insert into users (
+    userid,
+    password,
+    username,
+    email,
+    mobile
+  )values(
+    #{userid},
+    #{password},
+    #{username},
+    #{email},
+    #{mobile}
+  )
+</insert>
+
+<update id="updateProfile">
+  UPDATE users 
+  SET nickname = #{nickname}, profileimage = #{profileimage}
+  WHERE userid = #{userid}
+</update>
+
+</mapper>

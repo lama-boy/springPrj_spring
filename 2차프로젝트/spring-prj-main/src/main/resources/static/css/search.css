@@ -1,0 +1,28 @@
+body{
+  width  : 100%;
+  height : auto;
+  margin:auto;
+}
+
+#searchWrapper{
+  height : 50px;
+  border-bottom : 1px solid green;
+}
+
+#searchBody{
+  margin-top : 10px;
+  margin-left : 300px;
+}
+
+#searchArea{
+  width : 30%;
+  height : 40px;
+  border : none;
+}
+
+#resultWrapper{
+  width : 50%;
+  height : 700px;
+  margin-left : 300px;
+  background-color: red;
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserMapper">
+<select id="findById" resultType="UserVo">
+	SELECT * FROM USERS WHERE ID = #{id} 
+</select>
+<select id="findByNamePw" resultType="UserVo">
+	SELECT * FROM USERS WHERE NAME = #{name} AND PASSWORD = #{password} 
+</select>
+
+<select id="findByName" resultType="UserVo">
+	SELECT * FROM USERS WHERE NAME = #{name} 
+</select>
+
+
+<update id="updateUser">
+UPDATE USERS SET 
+PHONE = #{phone}, email = #{email}, password = #{password}
+WHERE ID = #{id}
+</update>
+
+<delete id="deleteUser">
+DELETE FROM USERS WHERE ID = #{id}
+</delete>
+
+<insert id="addUser">
+ <selectKey keyProperty="id" resultType="int" order="BEFORE">
+	SELECT USER_SEQ.NEXTVAL FROM DUAL
+ </selectKey>
+	INSERT INTO USERS(ID, NAME, PHONE, EMAIL, PASSWORD)
+	VALUES(#{id}, #{name}, #{phone}, #{email}, #{password})
+</insert>
+</mapper>
